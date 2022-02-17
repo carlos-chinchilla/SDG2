@@ -1,0 +1,1 @@
+reloj.o: ../reloj.c
