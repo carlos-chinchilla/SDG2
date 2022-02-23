@@ -86,8 +86,8 @@ void ActualizaFecha (TipoCalendario *p_fecha){
 
 	if (nuevoDia==1){
 		int mesActual = p_fecha ->MM;
-		int modulo = (mesActual+1)%(MAX_MONTH+1);
-		int nuevoMes = MAX(1,modulo);
+		int modulo1 = (mesActual+1)%(MAX_MONTH+1);
+		int nuevoMes = MAX(1,modulo1);
 		p_fecha ->dd = nuevomes;
 
 		if (nuevoMes==1){
@@ -101,18 +101,55 @@ void ActualizaFecha (TipoCalendario *p_fecha){
 }
 
 void ActualizaHora (TipoHora *p_hora){
+	int seg = p_hora ->ss;
+	int seg2 = seg +1;
+	int modulo = seg2 % 60;
+	p_hora ->ss = modulo;
 
+	if (modulo==0){
+		int min = p_hora ->mm;
+		int min2 = min + 1;
+		int modulo1 = min2 % 60;
+		p_hora ->mm = modulo1;
+
+		if (modulo1==0){
+			int horaActual = p_hora ->hh;
+			int horaNueva = horaActual +1;
+			int modulo1 = horaNueva % (DEFAULT_TIME_FORMAT+1);
+			p_hora ->hh = modulo1;
+		}
+
+	}
 }
 
 int CalculaDiasMes(int month, int year){
+	int bisiesto = EsBisiesto(year);
+	if (month==2 && bisiesto==1){
+		return 29;
+	} else if (month==2 && bisiesto==0) {
+		return  28;
+	} else if ((month==1|3|5|7|8|10|12)){
+		return 31;
+	} else {
+		return 30;
+	}
 
 }
 
 int EsBisiesto(int year){
+	if ((year%4)==0){
+		if((year%100)==0){
+			if((year%400)==0){
+				return 1;
+			} else return 0;
+		}else return 1;
+	}else return 0;
 
 }
 
 int SetHora(int horaInt, TipoHora *p_hora){
+	if (horaInt<0) return 1;
+
 
 }
 
